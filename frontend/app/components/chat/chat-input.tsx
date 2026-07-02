@@ -1,8 +1,10 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Input } from '@/components/ui/input'
 import { Mic, Send } from 'lucide-react'
+import { useChatStore } from '@/store/chat-store'
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void
@@ -10,13 +12,20 @@ interface ChatInputProps {
 }
 
 export default function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
-  const { register, handleSubmit, reset } = useForm({
+  const { inputValue, setInputValue } = useChatStore()
+  const { register, handleSubmit, reset, setValue } = useForm({
     defaultValues: { message: '' },
   })
+
+  // Sync store value to form when store value changes (e.g. from quick actions)
+  useEffect(() => {
+    setValue('message', inputValue)
+  }, [inputValue, setValue])
 
   const onSubmit = (data: { message: string }) => {
     if (data.message.trim()) {
       onSendMessage(data.message)
+      setInputValue('')
       reset()
     }
   }
@@ -43,7 +52,9 @@ export default function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
       
       <form onSubmit={handleSubmit(onSubmit)} className="relative flex items-center">
         <Input 
-          {...register('message')}
+          {...register('message', {
+            onChange: (e) => setInputValue(e.target.value)
+          })}
           disabled={disabled}
           autoComplete="off"
           placeholder={disabled ? "Processing..." : "Type a message..."} 
@@ -61,4 +72,5 @@ export default function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
     </div>
   )
 }
+
 
