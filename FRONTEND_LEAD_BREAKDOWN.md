@@ -41,6 +41,14 @@
    - [8.7 Landing Page Section Plan](#87--landing-page-section-plan-hero-first)
    - [8.8 3D UI Implementation Techniques](#88--3d-ui-implementation-techniques)
    - [8.9 Quick Visual Decision Summary](#89--quick-visual-decision-summary)
+9. [Layout Architecture & Sketch Diagrams](#9-layout-architecture--sketch-diagrams)
+   - [9.1 The Two-Zone Rule](#91--the-two-zone-rule)
+   - [9.2 Zone 1 — Landing Page Layout](#92--zone-1--landing-page-layout)
+   - [9.3 Zone 2 — App Shell Layout (Sidebar)](#93--zone-2--app-shell-layout-sidebar)
+   - [9.4 Dashboard — The Core Screen](#94--dashboard--the-core-screen)
+   - [9.5 Confirmed Colour Token Mapping](#95--confirmed-colour-token-mapping)
+   - [9.6 Mobile Behaviour](#96--mobile-behaviour)
+   - [9.7 Layout Decision Summary](#97--layout-decision-summary)
 
 ---
 
@@ -939,6 +947,281 @@ anime({
 
 > 🎯 **The 3D-ish direction in one sentence:**  
 > Dark surfaces. Layered glassmorphism cards. 3D icons from `3dicons.co`. Spline hero if time allows. GSAP scroll reveals. Lenis smooth scroll. Bold display font (Clash Display or Aktiv Grotesk). One of the three colour schemes chosen and committed to before a single line of CSS is written.
+
+---
+
+## 9. Layout Architecture & Sketch Diagrams
+
+> Everything the user sees is shaped by layout decisions made before a single component is coded. These diagrams are the source of truth for the Lumo UI structure.
+
+---
+
+### 9.1 — The Two-Zone Rule
+
+Lumo has two fundamentally different layout zones that must never be confused:
+
+```
+┌─────────────────────────────────────────────────────┐
+│  ZONE 1: PUBLIC ZONE (Landing + Auth)               │
+│                                                     │
+│  Layout:  Full-width, no sidebar, top navbar        │
+│  Routes:  /   /login   /register                    │
+│  Feel:    Marketing page — wide, cinematic, bold    │
+└─────────────────────────────────────────────────────┘
+                        │
+                   user logs in
+                        │
+                        ▼
+┌─────────────────────────────────────────────────────┐
+│  ZONE 2: APP ZONE (All authenticated pages)         │
+│                                                     │
+│  Layout:  Left sidebar (240px) + main content area  │
+│  Routes:  /dashboard   /transactions   /settings    │
+│  Feel:    Productivity tool — focused, persistent   │
+└─────────────────────────────────────────────────────┘
+```
+
+**Why two zones?**  
+Once a user is logged in, they are not browsing — they are *doing tasks*. The sidebar anchors navigation so the full vertical height is available for the chat interface, which is the entire product.
+
+---
+
+### 9.2 — Zone 1 — Landing Page Layout
+
+**Nav type: Top Navbar** (fixed, glassmorphic background on scroll)
+
+```
+╔══════════════════════════════════════════════════════════════╗
+║  [🌟 Lumo]        [Features]  [How it works]  [→ Sign in]   ║ ← Fixed navbar
+║                                                              ║   transparent → glass on scroll
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  HERO SECTION                             100vh              ║
+║                                                              ║
+║  left column (text)          right column (3D visual)        ║
+║  ─────────────────           ───────────────────────         ║
+║  "Finance.                   ┌───────────────────────┐       ║
+║   Finally                    │                       │       ║
+║   Conversational."           │  [Spline 3D scene     │       ║
+║                              │   OR Handz phone      │       ║
+║  One-line subtext here       │   mockup showing      │       ║
+║  about Lumo + Nomba          │   live chat UI]       │       ║
+║                              │                       │       ║
+║  [→ Get Started]             └───────────────────────┘       ║
+║  [▶ Watch Demo]                                              ║
+║                                                              ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  PROBLEM SECTION            (GSAP + Lenis scroll reveal)     ║
+║  "Managing money in Nigeria means switching between          ║
+║   5 different apps just to complete 1 financial task."       ║
+║                                                              ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  HOW IT WORKS               3-step horizontal flow           ║
+║                                                              ║
+║  [1. Chat]  ──→  [2. Confirm]  ──→  [3. Done in seconds]    ║
+║   Type what       Review the         Nomba executes          ║
+║   you want        transaction         instantly              ║
+║                                                              ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  FEATURES GRID              3D icon cards from 3dicons.co    ║
+║                                                              ║
+║  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐    ║
+║  │ 💸       │  │ 📱       │  │ 🧾       │  │ 📊       │    ║
+║  │  Send    │  │ Airtime  │  │  Bills   │  │Insights  │    ║
+║  │  Money   │  │          │  │          │  │          │    ║
+║  └──────────┘  └──────────┘  └──────────┘  └──────────┘    ║
+║                                                              ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  TRUST BAND                 dark strip, full width           ║
+║  "Powered by Nomba  ·  Bank-grade security  ·  99.9% uptime" ║
+║                                                              ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  FOOTER CTA                 full-width dark section          ║
+║  "Ready to simplify your finances?"                         ║
+║  [→ Start chatting with Lumo]                               ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+```
+
+**Landing page colour application:**
+- Background: `#320A03` (Deep Brown) throughout
+- Ember gradient glow radiating from bottom of hero upward
+- Navbar links: `#FCECDC` (Cream) at 80% opacity
+- Hero headline: `#FCECDC` full opacity, bold display font
+- "Get Started" CTA button: `#0F52BA` (Sapphire) — trust-coded
+- Feature card backgrounds: glassmorphic overlay on `#320A03`
+
+---
+
+### 9.3 — Zone 2 — App Shell Layout (Sidebar)
+
+**Why sidebar over top navbar in the app:**
+> The chat input is the primary action. A top navbar in the app zone would steal vertical height from the chat area — which is the entire product. A left sidebar preserves 100% vertical height for content.
+
+```
+╔════════════════╦══════════════════════════════════════════════╗
+║                ║                                              ║
+║   [🌟 Lumo]   ║                                              ║
+║                ║                                              ║
+║   ───────────  ║         MAIN CONTENT AREA                    ║
+║                ║         (swaps per route)                    ║
+║   💬 Chat      ║                                              ║
+║   📋 Txns      ║         /dashboard → Dashboard view          ║
+║   ⚙️  Settings  ║         /transactions → Transactions view    ║
+║                ║         /settings → Settings view            ║
+║                ║                                              ║
+║                ║                                              ║
+║   ───────────  ║                                              ║
+║                ║                                              ║
+║   [● Avatar]   ║                                              ║
+║   Babalola     ║                                              ║
+║   ↳ Sign out   ║                                              ║
+║                ║                                              ║
+╚════════════════╩══════════════════════════════════════════════╝
+  240px fixed         flex: 1  (all remaining viewport width)
+```
+
+**Sidebar colour application:**
+- Background: `#320A03` (Deep Brown) — same as landing, creates visual continuity
+- Active nav item: left border `3px solid #EB6028` (Ember Orange) + slightly lighter bg
+- Inactive nav items: `#FCECDC` at 55% opacity
+- Avatar: DiceBear `avataaars` style seeded from user email
+- Hover state: `#EB6028` at 10% opacity background tint
+
+---
+
+### 9.4 — Dashboard — The Core Screen
+
+The dashboard is where judges spend the most time. Three-column composition: sidebar + chat + right panel.
+
+```
+╔════════════════╦══════════════════════════════════╦════════════════════╗
+║                ║                                  ║                    ║
+║   [🌟 Lumo]   ║   CHAT COLUMN                    ║   RIGHT PANEL      ║
+║                ║                                  ║                    ║
+║   ───────────  ║  ┌────────────────────────────┐  ║  ┌──────────────┐  ║
+║                ║  │  Lumo Assistant   🟢 Live  │  ║  │   ₦125,430   │  ║
+║ ▶ 💬 Chat     ║  │  Powered by Nomba           │  ║  │   [👁 Hide]  │  ║
+║   📋 Txns     ║  ├────────────────────────────┤  ║  │              │  ║
+║   ⚙️  Settings ║  │                            │  ║  │ GTBank       │  ║
+║                ║  │                            │  ║  │ 0123456789   │  ║
+║                ║  │   [Welcome screen when     │  ║  ├──────────────┤  ║
+║   ───────────  ║  │    no messages yet]        │  ║  │ Quick Actions│  ║
+║                ║  │                            │  ║  │ [Send Money] │  ║
+║   [● Avatar]  ║  │   OR                       │  ║  │ [Airtime   ] │  ║
+║   Babalola    ║  │                            │  ║  │ [Data      ] │  ║
+║               ║  │   [Chat message thread]    │  ║  │ [Bills     ] │  ║
+║               ║  │                            │  ║  └──────────────┘  ║
+║               ║  │   [Confirmation card       │  ║                    ║
+║               ║  │    when transaction        │  ║  ┌──────────────┐  ║
+║               ║  │    is pending]             │  ║  │ Recent Txns  │  ║
+║               ║  │                            │  ║  │ ──────────── │  ║
+║               ║  ├────────────────────────────┤  ║  │ ₦25k → John │  ║
+║               ║  │ [Send ₦10k] [Airtime] ...  │  ║  │ ₦1k Airtime │  ║
+║               ║  │ ← quick suggestion chips   │  ║  │ ₦3.5k DSTV  │  ║
+║               ║  ├────────────────────────────┤  ║  │              │  ║
+║               ║  │  [____type a message___ 🎙]│  ║  │  View all →  │  ║
+║               ║  └────────────────────────────┘  ║  └──────────────┘  ║
+║               ║                                  ║                    ║
+╚═══════════════╩══════════════════════════════════╩════════════════════╝
+  240px fixed        flex: 1.5  (~60%)               flex: 1  (~40%)
+```
+
+**Key interaction notes:**
+- Clicking any quick action button (Send, Airtime, Data, Bills) **pre-fills the chat input** with the relevant prompt and focuses the input
+- The right panel is **read-only context** — all actions happen via chat
+- When a transaction confirmation card appears in chat, the right panel dims slightly to focus attention on the confirmation
+- Transaction receipt replaces the confirmation card *in-place* via Framer Motion animation
+
+---
+
+### 9.5 — Confirmed Colour Token Mapping
+
+Colour scheme locked: **Option C (Ember & Terracotta) + Sapphire trust layer**
+
+```
+Token               Hex Value            Usage
+─────────────────   ──────────────────   ────────────────────────────────────────────
+Deep Brown          #320A03              Sidebar bg, hero section bg, page dark base
+Ember Orange        #EB6028              Logo accent, active nav, quick action btns,
+                                         notification dots, hover highlights
+Cream               #FCECDC              Body text on dark, card overlay tint,
+                                         input placeholder base
+Sapphire            #0F52BA              ALL money-moving CTAs: "Confirm", "Send",
+                                         "Get Started", "Pay Now" — trust-coded
+Off-White           #FFFFFA              Primary text on dark surfaces
+Muted Cream         rgba(252,236,220,.5) Secondary text, timestamps, labels
+Success Green       #22C55E              Receipt checkmark, "Successful" badge,
+                                         transaction success toast
+Danger Red          #EF4444              Failed transactions, destructive actions,
+                                         "Cancel" in high-stakes contexts
+```
+
+**The core rule — never break this:**
+> `#EB6028` (Orange) = brand personality, warmth, African identity  
+> `#0F52BA` (Sapphire) = trust, money movement, confirmation  
+> Swapping them would make the UI feel untrustworthy. Orange on a "Confirm Transfer" button signals danger, not action.
+
+---
+
+### 9.6 — Mobile Behaviour
+
+**Mobile breakpoint: < 640px**
+
+```
+┌────────────────────────────┐
+│  [☰]    🌟 Lumo    [🔔]   │  ← Minimal top bar (hamburger + logo + notif)
+├────────────────────────────┤
+│                            │
+│  ₦125,430   [👁]           │  ← Wallet card (scrollable, above chat)
+│  GTBank • 0123456789       │
+│  [Send] [Airtime] [Bills]  │
+│                            │
+├────────────────────────────┤
+│                            │
+│   Lumo Assistant  🟢       │
+│                            │
+│   [chat messages]          │
+│                            │
+│   [quick chips]            │
+│   [___type here_______🎙]  │
+│                            │
+└────────────────────────────┘
+
+  ↑ Sidebar slides in from left when [☰] is tapped
+  ↑ Dark backdrop overlay behind it
+  ↑ Tap anywhere on backdrop to close
+```
+
+**Mobile-specific rules:**
+- Wallet card scrolls off screen upward — chat always fills the viewport bottom
+- Chat input stays **sticky at the bottom** (position: sticky, bottom: 0)
+- All tap targets minimum **44×44px**
+- No hover states — everything touch-first
+- Sidebar push-from-left with Framer Motion `x: -240 → 0` animation, 250ms ease
+
+---
+
+### 9.7 — Layout Decision Summary
+
+| Decision | Choice | Rationale |
+|----------|--------|----------|
+| **Landing nav type** | Top navbar | Marketing page — full width needed for hero |
+| **App nav type** | Left sidebar 240px | Preserves full vertical height for chat |
+| **Mobile nav** | Hamburger → slide-in drawer | Standard pattern — users expect this |
+| **Dashboard layout** | 3-column (sidebar + 60% chat + 40% panel) | Chat is primary; wallet is always-visible context |
+| **Mobile dashboard** | Stacked: wallet card above, chat below | Chat stays at bottom — thumb-friendly |
+| **Chat input position** | Sticky bottom | Always reachable — it's the core action |
+| **Sidebar width** | 240px | Enough for icon + label; not so wide it competes with content |
+| **Colour: brand/personality** | `#EB6028` Ember Orange | Warmth, uniqueness, West African identity |
+| **Colour: trust/CTAs** | `#0F52BA` Sapphire | Blue = trust = money movement — non-negotiable |
+| **Colour: dark base** | `#320A03` Deep Brown | Premium, memorable, nothing in fintech looks like this |
+| **Colour: surfaces** | `#FCECDC` Cream tint | Warm card overlays, prevents harsh contrast on deep brown |
 
 ---
 
