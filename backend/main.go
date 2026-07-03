@@ -15,6 +15,7 @@ import (
 	"github.com/vatilize-labs/lumo-finance/internal/db"
 	"github.com/vatilize-labs/lumo-finance/internal/handlers"
 	"github.com/vatilize-labs/lumo-finance/internal/middleware"
+	"github.com/vatilize-labs/lumo-finance/internal/nomba"
 	"github.com/vatilize-labs/lumo-finance/internal/otp"
 	"github.com/vatilize-labs/lumo-finance/internal/redis"
 	"github.com/vatilize-labs/lumo-finance/internal/services"
@@ -48,8 +49,21 @@ func main() {
 	otpService := otp.NewOneTimePasswordService(redisClient, otp.NewConsoleSender(), appConfig.OTPTTL)
 	auditRecorder := audit.NewRecorder(dbPool)
 
+	// Nomba client: sandbox by default so everything works without credentials
+	var nombaClient nomba.Client
+	if appConfig.NombaMode == "live" {
+		nombaClient = nomba.NewHTTPClient(appConfig.NombaBaseURL, appConfig.NombaAPIKey)
+	} else {
+		nombaClient = nomba.NewSandboxClient()
+		log.Println("Nomba client running in sandbox mode (set NOMBA_MODE=live for real payments)")
+	}
+
 	// Services
 	authService := services.NewAuthService(dbPool, tokenIssuer, refreshTokenStore, otpService, auditRecorder)
+	userService := services.NewUserService(dbPool)
+	walletService := services.NewWalletService(dbPool)
+	transactionService := services.NewTransactionService(dbPool, nombaClient, auditRecorder)
+	analyticsService := services.NewAnalyticsService(dbPool)
 
 	app := fiber.New(fiber.Config{
 		AppName: "Lumo Finance API",
@@ -85,30 +99,30 @@ func main() {
 	protected.Use(middleware.AuthRequired(tokenIssuer))
 
 	// User routes
-	userHandler := handlers.NewUserHandler(dbPool)
+	userHandler := handlers.NewUserHandler(userService)
 	protected.Get("/users/me", userHandler.GetProfile)
 	protected.Put("/users/me", userHandler.UpdateProfile)
 	protected.Post("/users/me/pin", authHandler.SetTransactionPin)
 	protected.Post("/users/me/pin/verify", authHandler.VerifyTransactionPin)
 
 	// Wallet routes
-	walletHandler := handlers.NewWalletHandler(dbPool, redisClient)
+	walletHandler := handlers.NewWalletHandler(walletService)
 	protected.Get("/wallet/balance", walletHandler.GetBalance)
 	protected.Get("/wallet/accounts", walletHandler.GetAccounts)
 	protected.Post("/wallet/link-account", walletHandler.LinkAccount)
 
 	// Transaction routes
-	transactionHandler := handlers.NewTransactionHandler(dbPool, redisClient)
+	transactionHandler := handlers.NewTransactionHandler(transactionService)
 	protected.Get("/transactions", transactionHandler.List)
 	protected.Get("/transactions/:id", transactionHandler.GetByID)
 
 	// Analytics routes
-	analyticsHandler := handlers.NewAnalyticsHandler(dbPool)
+	analyticsHandler := handlers.NewAnalyticsHandler(analyticsService)
 	protected.Get("/analytics/spending", analyticsHandler.GetSpending)
 	protected.Get("/analytics/summary", analyticsHandler.GetSummary)
 
 	// Nomba webhook (for transaction updates)
-	app.Post("/webhooks/nomba", handlers.HandleNombaWebhook(dbPool))
+	app.Post("/webhooks/nomba", handlers.HandleNombaWebhook(dbPool, auditRecorder))
 
 	log.Printf("🚀 Server running on port %s", appConfig.Port)
 	if err := app.Listen(fmt.Sprintf(":%s", appConfig.Port)); err != nil {
