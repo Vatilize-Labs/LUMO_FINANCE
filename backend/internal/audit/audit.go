@@ -31,6 +31,10 @@ func NewRecorder(dbPool *pgxpool.Pool) *Recorder {
 }
 
 func (recorder *Recorder) Record(ctx context.Context, event Event) {
+	if recorder.dbPool == nil {
+		// No database configured (unit tests) — auditing is best-effort.
+		return
+	}
 	// Detach from the request context so cancellation doesn't drop the log,
 	// but bound the write so a slow database can't pile up goroutines.
 	writeCtx, cancel := context.WithTimeout(context.WithoutCancel(ctx), 2*time.Second)

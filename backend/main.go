@@ -9,6 +9,11 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 
+	"github.com/vatilize-labs/lumo-finance/internal/ai"
+	"github.com/vatilize-labs/lumo-finance/internal/ai/claude"
+	"github.com/vatilize-labs/lumo-finance/internal/ai/conversation"
+	"github.com/vatilize-labs/lumo-finance/internal/ai/pending"
+	"github.com/vatilize-labs/lumo-finance/internal/ai/tools"
 	"github.com/vatilize-labs/lumo-finance/internal/audit"
 	"github.com/vatilize-labs/lumo-finance/internal/auth"
 	"github.com/vatilize-labs/lumo-finance/internal/config"
@@ -65,6 +70,14 @@ func main() {
 	transactionService := services.NewTransactionService(dbPool, nombaClient, auditRecorder)
 	analyticsService := services.NewAnalyticsService(dbPool)
 
+	// AI layer
+	claudeClient := claude.NewClient(appConfig.AnthropicAPIKey, appConfig.ClaudeModel)
+	conversationStore := conversation.NewStore(redisClient, appConfig.ConversationTTL)
+	pendingActionStore := pending.NewStore(redisClient)
+	readOnlyToolExecutor := tools.NewReadOnlyToolExecutor(walletService, transactionService, analyticsService, nombaClient)
+	chatService := ai.NewChatService(claudeClient, conversationStore, pendingActionStore,
+		readOnlyToolExecutor, authService, transactionService, auditRecorder, redisClient)
+
 	app := fiber.New(fiber.Config{
 		AppName: "Lumo Finance API",
 	})
@@ -120,6 +133,15 @@ func main() {
 	analyticsHandler := handlers.NewAnalyticsHandler(analyticsService)
 	protected.Get("/analytics/spending", analyticsHandler.GetSpending)
 	protected.Get("/analytics/summary", analyticsHandler.GetSummary)
+
+	// AI chat routes
+	chatRateLimit := middleware.RateLimit(redisClient, middleware.RateLimitByUser("chat", 20, time.Minute))
+	confirmRateLimit := middleware.RateLimit(redisClient, middleware.RateLimitByUser("confirm", 10, time.Minute))
+	chatHandler := handlers.NewChatHandler(chatService)
+	protected.Post("/chat", chatRateLimit, chatHandler.Chat)
+	protected.Post("/chat/stream", chatRateLimit, chatHandler.ChatStream)
+	protected.Post("/chat/confirm", confirmRateLimit, chatHandler.Confirm)
+	protected.Post("/chat/cancel", chatHandler.Cancel)
 
 	// Nomba webhook (for transaction updates)
 	app.Post("/webhooks/nomba", handlers.HandleNombaWebhook(dbPool, auditRecorder))
