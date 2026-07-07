@@ -1,15 +1,15 @@
 {
-  "name": "StacksArena",
-  "short_name": "StacksArena",
+  "name": "Lumo Finance",
+  "short_name": "Lumo",
   "icons": [
     {
-      "src": "/stacksarena-logo.svg",
+      "src": "/lumoFi-logo.svg",
       "sizes": "any",
       "type": "image/svg+xml"
     }
   ],
-  "theme_color": "#000000",
-  "background_color": "#000000",
+  "theme_color": "#320A03",
+  "background_color": "#320A03",
   "display": "standalone",
   "start_url": "/"
 }
