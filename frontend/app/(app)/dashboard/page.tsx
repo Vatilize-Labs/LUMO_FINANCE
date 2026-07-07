@@ -12,7 +12,7 @@ export default function DashboardPage() {
       <div className="w-full md:w-[40%] md:order-2 flex flex-col gap-6">
         <WalletCard />
         
-        <Card className="p-6 flex-1">
+        <Card className="p-6">
           <div className="flex justify-between items-center mb-4">
             <h3 className="font-heading font-semibold text-cream">Recent Transactions</h3>
             <button className="text-sm text-ember hover:text-ember-hover transition-colors">
@@ -34,6 +34,49 @@ export default function DashboardPage() {
                 <span className="font-medium text-cream">{txn.amount}</span>
               </div>
             ))}
+          </div>
+        </Card>
+
+        {/* Spending Insights MVP */}
+        <Card className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="font-heading font-semibold text-cream">Spending Insights</h3>
+            <select className="bg-transparent text-sm text-cream/70 outline-none cursor-pointer">
+              <option className="bg-brown">This Month</option>
+              <option className="bg-brown">Last Month</option>
+            </select>
+          </div>
+          
+          <div className="space-y-5">
+            <div>
+              <div className="flex justify-between text-sm mb-2">
+                <span className="text-cream">Transfers</span>
+                <span className="font-medium text-cream">₦120,000</span>
+              </div>
+              <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+                <div className="h-full bg-ember rounded-full" style={{ width: '65%' }}></div>
+              </div>
+            </div>
+            
+            <div>
+              <div className="flex justify-between text-sm mb-2">
+                <span className="text-cream">Bills & Utilities</span>
+                <span className="font-medium text-cream">₦45,000</span>
+              </div>
+              <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+                <div className="h-full bg-[#4285F4] rounded-full" style={{ width: '25%' }}></div>
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between text-sm mb-2">
+                <span className="text-cream">Airtime & Data</span>
+                <span className="font-medium text-cream">₦15,000</span>
+              </div>
+              <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+                <div className="h-full bg-success rounded-full" style={{ width: '10%' }}></div>
+              </div>
+            </div>
           </div>
         </Card>
       </div>
