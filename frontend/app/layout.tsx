@@ -59,7 +59,7 @@ export default function RootLayout({
       <body className="bg-brown text-cream antialiased selection:bg-ember/30 selection:text-cream">
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
