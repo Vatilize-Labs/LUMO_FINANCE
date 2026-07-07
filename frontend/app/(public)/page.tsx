@@ -48,7 +48,7 @@ export default function LandingPage() {
             <motion.img 
               src="/hero_3d_official_logo.png" 
               alt="Lumo Background Image" 
-              className="w-[800px] md:w-[1200px] max-w-none object-contain"
+              className="w-[800px] md:w-[1200px] max-w-none object-contain -rotate-[15deg]"
               animate={{ 
                 scale: [1, 1.15],
                 opacity: [0.7, 0.1]
