@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MessageSquare, LayoutList, Settings, LogOut, Menu, X } from 'lucide-react'
+import { MessageSquare, Settings, LogOut, Menu, X, PieChart, SendHorizontal, Users, CreditCard } from 'lucide-react'
 import { clsx } from 'clsx'
 import { useState, useEffect } from 'react'
 import { ThemeToggle } from './ui/theme-toggle'
@@ -26,7 +26,6 @@ export function Sidebar() {
   const pathname = usePathname()
   const router = useRouter()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [isCollapsed, setIsCollapsed] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [userProfile, setUserProfile] = useState<SidebarUserProfile | null>(null)
   const [isSigningOut, setIsSigningOut] = useState(false)
@@ -57,7 +56,7 @@ export function Sidebar() {
     }
   }
 
-  const SidebarContent = () => (
+  const SidebarContent = (_props: { isMobile?: boolean }) => (
     <div className="flex flex-col h-full bg-brown w-[240px] shrink-0 border-r border-white/5 relative z-50">
       <div className="p-6 border-b border-white/5 flex items-center justify-between">
         <Link href="/dashboard" className="flex items-center gap-2 group">
