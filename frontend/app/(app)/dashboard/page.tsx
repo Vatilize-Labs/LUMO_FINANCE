@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import { WalletCard } from '@/components/wallet-card'
 import { Card } from '@/components/ui/card'
 import ChatInterface from '@/components/chat/chat-interface'
-import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 
 const cardVariants = {
