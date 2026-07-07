@@ -43,21 +43,12 @@ export default function LandingPage() {
         {/* Hero Section with Ember Gradient Glow */}
         <section className="relative pt-32 pb-40 px-6 overflow-hidden flex flex-col items-center justify-center text-center min-h-[85vh]">
           
-          {/* Background Image with Pulse/Fade Animation */}
+          {/* Background Image (Static, Tilted) */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-0">
-            <motion.img 
+            <img 
               src="/hero_3d_official_logo.png" 
               alt="Lumo Background Image" 
-              className="w-[800px] md:w-[1200px] max-w-none object-contain -rotate-[15deg]"
-              animate={{ 
-                scale: [1, 1.15],
-                opacity: [0.7, 0.1]
-              }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: 8, 
-                ease: "easeOut"
-              }}
+              className="w-[800px] md:w-[1200px] max-w-none object-contain opacity-20 -rotate-[15deg] transition-transform"
             />
           </div>
 
@@ -108,33 +99,49 @@ export default function LandingPage() {
             </div>
             
             <div className="grid md:grid-cols-3 gap-6">
-              <Card className="p-8 hover:border-ember/50 transition-colors group">
-                <div className="w-12 h-12 rounded-xl bg-ember/20 text-ember flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <MessageSquare size={24} />
+              
+              {/* Card 1: Dots Pattern */}
+              <Card className="p-8 hover:border-ember/50 transition-colors group relative overflow-hidden">
+                <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 2px, transparent 0)', backgroundSize: '16px 16px' }} />
+                <div className="relative z-10">
+                  <div className="w-12 h-12 rounded-xl bg-ember/20 text-ember flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <MessageSquare size={24} />
+                  </div>
+                  <h3 className="text-xl font-heading font-bold mb-3">Conversational Payments</h3>
+                  <p className="text-cream/70 leading-relaxed">
+                    &ldquo;Send 10k to David.&rdquo; It&apos;s that simple. Lumo understands natural language and executes instantly.
+                  </p>
                 </div>
-                <h3 className="text-xl font-heading font-bold mb-3">Conversational Payments</h3>
-                <p className="text-cream/70 leading-relaxed">
-                  &ldquo;Send 10k to David.&rdquo; It&apos;s that simple. Lumo understands natural language and executes instantly.
-                </p>
               </Card>
-              <Card className="p-8 hover:border-ember/50 transition-colors group">
-                <div className="w-12 h-12 rounded-xl bg-ember/20 text-ember flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <ShieldCheck size={24} />
+
+              {/* Card 2: Diagonal Stripes Pattern */}
+              <Card className="p-8 hover:border-ember/50 transition-colors group relative overflow-hidden">
+                <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'repeating-linear-gradient(45deg, white, white 1px, transparent 1px, transparent 10px)' }} />
+                <div className="relative z-10">
+                  <div className="w-12 h-12 rounded-xl bg-ember/20 text-ember flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <ShieldCheck size={24} />
+                  </div>
+                  <h3 className="text-xl font-heading font-bold mb-3">Bank-Grade Security</h3>
+                  <p className="text-cream/70 leading-relaxed">
+                    Protected by standard encryption and Nomba&apos;s robust, production-ready payment infrastructure.
+                  </p>
                 </div>
-                <h3 className="text-xl font-heading font-bold mb-3">Bank-Grade Security</h3>
-                <p className="text-cream/70 leading-relaxed">
-                  Protected by standard encryption and Nomba&apos;s robust, production-ready payment infrastructure.
-                </p>
               </Card>
-              <Card className="p-8 hover:border-ember/50 transition-colors group">
-                <div className="w-12 h-12 rounded-xl bg-ember/20 text-ember flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <Globe size={24} />
+
+              {/* Card 3: Grid Pattern */}
+              <Card className="p-8 hover:border-ember/50 transition-colors group relative overflow-hidden">
+                <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+                <div className="relative z-10">
+                  <div className="w-12 h-12 rounded-xl bg-ember/20 text-ember flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <Globe size={24} />
+                  </div>
+                  <h3 className="text-xl font-heading font-bold mb-3">Universal Access</h3>
+                  <p className="text-cream/70 leading-relaxed">
+                    Seamless multi-channel support. Access your wallet from anywhere, tailored for the modern African context.
+                  </p>
                 </div>
-                <h3 className="text-xl font-heading font-bold mb-3">Universal Access</h3>
-                <p className="text-cream/70 leading-relaxed">
-                  Seamless multi-channel support. Access your wallet from anywhere, tailored for the modern African context.
-                </p>
               </Card>
+              
             </div>
           </div>
         </section>
