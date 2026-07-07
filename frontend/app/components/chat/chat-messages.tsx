@@ -85,7 +85,7 @@ export default function ChatMessages({ messages, loading }: ChatMessagesProps) {
   ]
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 flex flex-col justify-end space-y-4">
+    <div className="flex-1 overflow-y-auto overflow-x-hidden p-6 flex flex-col justify-end space-y-4 relative">
       {messages.length === 0 ? (
         <div className="text-center mb-8 h-full flex flex-col justify-center items-center">
           <motion.div

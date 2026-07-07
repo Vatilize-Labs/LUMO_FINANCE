@@ -10,7 +10,10 @@ import { ThemeToggle } from './ui/theme-toggle'
 
 const navItems = [
   { name: 'Chat', href: '/dashboard', icon: MessageSquare },
-  { name: 'Transactions', href: '/transactions', icon: LayoutList },
+  { name: 'Analytics', href: '/analytics', icon: PieChart },
+  { name: 'Transactions', href: '/transactions', icon: SendHorizontal },
+  { name: 'Beneficiaries', href: '/beneficiaries', icon: Users },
+  { name: 'Cards', href: '/cards', icon: CreditCard },
   { name: 'Settings', href: '/settings', icon: Settings },
 ]
 
@@ -23,6 +26,7 @@ export function Sidebar() {
   const pathname = usePathname()
   const router = useRouter()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isCollapsed, setIsCollapsed] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [userProfile, setUserProfile] = useState<SidebarUserProfile | null>(null)
   const [isSigningOut, setIsSigningOut] = useState(false)
@@ -69,7 +73,7 @@ export function Sidebar() {
         )}
       </div>
 
-      <nav className="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
+      <nav className="flex-1 py-6 px-4 space-y-2 overflow-y-auto overflow-x-hidden">
         {navItems.map((item) => {
           const isActive = pathname === item.href
           return (
@@ -133,9 +137,7 @@ export function Sidebar() {
       {/* Mobile Top Bar */}
       <div className="md:hidden flex items-center justify-between p-4 bg-brown/90 backdrop-blur-md border-b border-white/5 w-full shrink-0 sticky top-0 z-40">
         <div className="flex items-center gap-2">
-           <div className="w-8 h-8 rounded-lg bg-ember flex items-center justify-center">
-            <span className="text-cream font-bold text-lg font-heading">L</span>
-          </div>
+          <img src="/lumoFi-logo.png" alt="Lumo Logo" className="w-8 h-8 object-contain" />
           <span className="font-heading text-xl text-cream font-bold">Lumo</span>
         </div>
         <div className="flex items-center gap-3">
@@ -148,7 +150,7 @@ export function Sidebar() {
 
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex h-screen sticky top-0">
-        <SidebarContent />
+        <SidebarContent isMobile={false} />
       </aside>
 
       {/* Mobile Sidebar Overlay */}
