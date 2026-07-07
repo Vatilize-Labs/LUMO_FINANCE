@@ -48,14 +48,14 @@ export default function LandingPage() {
             <motion.img 
               src="/hero_3d_official_logo.png" 
               alt="Lumo Background Image" 
-              className="w-[600px] md:w-[800px] max-w-none object-contain"
+              className="w-[800px] md:w-[1200px] max-w-none object-contain"
               animate={{ 
-                scale: [1, 1.2],
+                scale: [1, 1.15],
                 opacity: [0.7, 0.1]
               }}
               transition={{ 
                 repeat: Infinity, 
-                duration: 4, 
+                duration: 8, 
                 ease: "easeOut"
               }}
             />
@@ -76,7 +76,8 @@ export default function LandingPage() {
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
               <h1 className="text-5xl md:text-7xl font-heading font-bold leading-tight tracking-tight max-w-3xl">
-                Manage your money like you&apos;re <span className="text-ember">texting a friend.</span>
+                Manage your money like you&apos;re <br />
+                <span className="text-ember">texting a friend.</span>
               </h1>
               <p className="text-lg md:text-xl text-cream/80 leading-relaxed max-w-2xl mx-auto font-medium">
                 Lumo is an AI-powered financial assistant that lets you send money, pay bills, and track expenses through simple, natural conversations.
