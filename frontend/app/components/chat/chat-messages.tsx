@@ -60,6 +60,13 @@ export default function ChatMessages({ messages, loading }: ChatMessagesProps) {
 
   return (
     <div className="flex-1 overflow-y-auto overflow-x-hidden p-6 flex flex-col justify-end space-y-4 relative">
+      {/* Stunning 3D People Background Decoration - Always visible */}
+      <img 
+        src="/people_3d.png" 
+        alt="3D People" 
+        className="fixed md:absolute top-1/2 right-0 translate-x-[25%] -translate-y-1/2 w-auto min-h-[140%] object-contain opacity-[0.07] pointer-events-none mix-blend-screen z-0"
+      />
+      
       {messages.length === 0 ? (
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
@@ -67,13 +74,6 @@ export default function ChatMessages({ messages, loading }: ChatMessagesProps) {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="text-center mb-8 h-full flex flex-col justify-center items-center relative z-10 w-full"
         >
-          {/* Stunning 3D People Background Decoration */}
-          <img 
-            src="/people_3d.png" 
-            alt="3D People" 
-            className="absolute top-1/2 right-0 translate-x-[25%] -translate-y-1/2 w-auto min-h-[140%] object-contain opacity-10 pointer-events-none mix-blend-screen"
-          />
-          
           <div className="w-16 h-16 rounded-2xl bg-black/20 mx-auto flex items-center justify-center mb-4 border border-white/5 shadow-xl shadow-ember/10 relative z-10">
             <img src="/lumoFi-logo.png" alt="Lumo AI" className="w-12 h-12 object-contain" />
           </div>
