@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { AuthBrandPanel } from '@/components/auth/auth-brand-panel'
-import { Mail, Lock, Loader2 } from 'lucide-react'
+import { Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react'
 
 const easeOutExpo = [0.21, 0.47, 0.32, 0.98] as const
 
@@ -21,6 +21,7 @@ export default function LoginPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [serverError, setServerError] = useState<string | null>(null)
+  const [showPassword, setShowPassword] = useState(false)
 
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
     mode: 'onBlur'
@@ -105,14 +106,21 @@ export default function LoginPage() {
               <div className="relative">
                 <Lock className="absolute left-3 top-3.5 text-cream/40 z-10" size={18} />
                 <Input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   {...register('password', {
                     required: 'Password is required',
                     minLength: { value: 8, message: 'Minimum 8 characters' }
                   })}
                   placeholder="Password"
-                  className="pl-10 h-12 bg-white/5 border-white/10 focus-visible:ring-ember/50 text-cream hover:border-white/20 transition-colors"
+                  className="pl-10 pr-10 h-12 bg-white/5 border-white/10 focus-visible:ring-ember/50 text-cream hover:border-white/20 transition-colors"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-3.5 text-cream/40 hover:text-cream/80 transition-colors z-10"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
                 {errors.password && <span className="text-xs text-red-400 mt-1 block">{errors.password.message as string}</span>}
               </div>
             </div>

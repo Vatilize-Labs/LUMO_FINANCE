@@ -48,7 +48,7 @@ export default function LandingPage() {
             <img 
               src="/hero_3d_official_.png" 
               alt="Lumo Background Image" 
-              className="w-[1200px] md:w-[1600px] max-w-none object-contain opacity-20 -rotate-[15deg] transition-transform"
+              className="w-[1000px] md:w-[1400px] max-w-none object-contain opacity-20 -rotate-[15deg] transition-transform"
             />
           </div>
 
