@@ -61,7 +61,7 @@ export function Sidebar() {
     <motion.div 
       animate={{ width: _props.isMobile ? 260 : (isCollapsed ? 80 : 240) }}
       transition={{ type: 'spring', bounce: 0, duration: 0.3 }}
-      className="flex flex-col h-full bg-brown shrink-0 border-r border-white/5 relative z-50 overflow-hidden"
+      className="flex flex-col h-full bg-brown shrink-0 border-r border-white/5 relative z-50"
     >
       {!_props.isMobile && (
         <button 
@@ -95,12 +95,14 @@ export function Sidebar() {
               href={item.href}
               onClick={() => setMobileMenuOpen(false)}
               className={clsx(
-                'relative flex items-center gap-3 px-4 py-3 rounded-xl transition-colors duration-200 font-medium overflow-hidden',
+                'relative flex items-center gap-3 px-4 py-3 rounded-xl transition-colors duration-200 font-medium overflow-hidden group',
                 isActive
                   ? 'text-ember'
                   : 'text-cream/70 hover:bg-white/5 hover:text-cream'
               )}
             >
+              {/* Shimmer Sheen Effect */}
+              <div className="absolute inset-0 translate-x-[150%] group-hover:-translate-x-[150%] bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 ease-in-out pointer-events-none z-20" />
               {isActive && (
                 <motion.span
                   layoutId="sidebar-active-pill"
@@ -142,10 +144,12 @@ export function Sidebar() {
         <button
           onClick={handleSignOut}
           disabled={isSigningOut}
-          className={clsx("flex items-center gap-3 py-2 text-sm text-danger hover:bg-danger/10 rounded-lg transition-colors disabled:opacity-50", isCollapsed ? "justify-center px-0 mx-auto w-10 h-10" : "px-4 w-full")}
+          className={clsx("relative overflow-hidden group flex items-center gap-3 py-2 text-sm text-danger hover:bg-danger/10 rounded-lg transition-colors disabled:opacity-50", isCollapsed ? "justify-center px-0 mx-auto w-10 h-10" : "px-4 w-full")}
         >
-          {mounted && <LogOut size={16} className="shrink-0" />}
-          {!isCollapsed && (isSigningOut ? 'Signing Out…' : 'Sign Out')}
+          {/* Shimmer Sheen Effect */}
+          <div className="absolute inset-0 translate-x-[150%] group-hover:-translate-x-[150%] bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 ease-in-out pointer-events-none z-20" />
+          {mounted && <LogOut size={16} className="shrink-0 relative z-10" />}
+          {!isCollapsed && <span className="relative z-10">{isSigningOut ? 'Signing Out…' : 'Sign Out'}</span>}
         </button>
       </div>
     </motion.div>
