@@ -15,9 +15,18 @@ interface ChatMessagesProps {
 }
 
 import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 
 export default function ChatMessages({ messages, loading }: ChatMessagesProps) {
   const { updateMessage, addMessage } = useChatStore()
+  const [userProfile, setUserProfile] = useState<{name: string, email: string} | null>(null)
+
+  useEffect(() => {
+    fetch('/api/user')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if(data) setUserProfile(data) })
+      .catch(() => {})
+  }, [])
   
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text)
@@ -85,11 +94,15 @@ export default function ChatMessages({ messages, loading }: ChatMessagesProps) {
               <div className={`flex gap-3 max-w-full md:max-w-[85%] ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                 
                 <div className={clsx(
-                  "w-10 h-10 rounded-xl flex items-center justify-center shrink-0",
-                  message.role === 'user' ? "bg-white/10" : "bg-transparent"
+                  "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border",
+                  message.role === 'user' ? "bg-black/20 border-white/10 overflow-hidden" : "bg-transparent border-transparent"
                 )}>
                   {message.role === 'user' ? (
-                    <User size={20} className="text-cream" />
+                    <img 
+                      src={`https://api.dicebear.com/7.x/notionists/svg?seed=${userProfile?.name || 'Lumo'}&backgroundColor=transparent`} 
+                      alt="User Avatar" 
+                      className="w-full h-full object-cover"
+                    />
                   ) : (
                     <img src="/lumoFi-logo.png" alt="Lumo AI" className="w-10 h-10 object-contain" />
                   )}
@@ -160,11 +173,11 @@ export default function ChatMessages({ messages, loading }: ChatMessagesProps) {
 
       {loading && (
         <div className="flex justify-start">
-           <div className="flex gap-3 max-w-[85%]">
-             <div className="w-8 h-8 rounded-full bg-ember/20 text-ember flex items-center justify-center flex-shrink-0 mt-1">
-               <Bot size={16} />
-             </div>
-             <div className="bg-white/5 border border-white/5 text-cream px-4 py-3 rounded-2xl rounded-tl-sm backdrop-blur-sm flex items-center">
+             <div className="flex gap-3 max-w-[85%]">
+               <div className="w-10 h-10 rounded-xl bg-transparent flex items-center justify-center shrink-0">
+                 <img src="/lumoFi-logo.png" alt="Lumo AI" className="w-10 h-10 object-contain" />
+               </div>
+               <div className="bg-white/5 border border-white/5 text-cream px-4 py-3 rounded-2xl rounded-tl-sm backdrop-blur-sm flex items-center">
                <div className="flex space-x-1.5">
                  <div className="w-2 h-2 bg-ember rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                  <div className="w-2 h-2 bg-ember rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
