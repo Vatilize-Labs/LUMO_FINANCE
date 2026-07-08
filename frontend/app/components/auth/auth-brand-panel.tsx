@@ -58,6 +58,14 @@ export function AuthBrandPanel({ headline, subline }: AuthBrandPanelProps) {
         </motion.p>
       </div>
 
+      <motion.img 
+        src="/auth_3d_security.png" 
+        alt="Security"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[45%] w-[380px] h-[380px] object-contain opacity-60 pointer-events-none z-0"
+        animate={{ y: ["-45%", "-48%", "-45%"] }}
+        transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+      />
+
       <motion.div
         initial={{ opacity: 0, y: 32 }}
         animate={{ opacity: 1, y: 0 }}

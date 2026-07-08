@@ -46,7 +46,7 @@ export default function LandingPage() {
           {/* Background Image (Static, Tilted) */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-0">
             <img 
-              src="/hero_3d_official_logo.png" 
+              src="/hero_3d_official_.png" 
               alt="Lumo Background Image" 
               className="w-[800px] md:w-[1200px] max-w-none object-contain opacity-20 -rotate-[15deg] transition-transform"
             />

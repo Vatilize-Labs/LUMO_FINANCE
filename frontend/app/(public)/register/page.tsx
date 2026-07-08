@@ -117,6 +117,11 @@ export default function RegisterPage() {
           aria-hidden
           className="md:hidden absolute -top-24 -right-24 w-[320px] h-[320px] rounded-full bg-ember/15 blur-[100px] pointer-events-none"
         />
+        <img 
+          src="/abstract_3d_pattern.png" 
+          alt="Abstract Pattern" 
+          className="absolute inset-0 w-full h-full object-cover opacity-5 mix-blend-screen pointer-events-none"
+        />
 
         {/* Mobile Header */}
         <Link href="/" className="md:hidden flex items-center gap-2 mb-12 self-start relative z-10 group">
