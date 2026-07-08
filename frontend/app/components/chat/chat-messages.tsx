@@ -2,7 +2,7 @@
 
 import { Message } from '@/types/chat'
 import { formatTime } from '@/lib/utils'
-import { Copy, Bot, User } from 'lucide-react'
+import { Copy } from 'lucide-react'
 import { clsx } from 'clsx'
 import { toast } from 'react-hot-toast'
 import { TransactionConfirmationCard, TransactionIntent } from '../transactions/transaction-confirmation'
