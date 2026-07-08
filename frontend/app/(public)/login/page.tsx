@@ -64,9 +64,9 @@ export default function LoginPage() {
         />
 
         {/* Mobile Header */}
-        <Link href="/" className="md:hidden flex items-center gap-2 mb-12 self-start relative z-10">
-          <div className="w-8 h-8 rounded-lg bg-ember flex items-center justify-center">
-            <span className="text-cream font-bold font-heading">L</span>
+        <Link href="/" className="md:hidden flex items-center gap-2 mb-12 self-start relative z-10 group">
+          <div className="w-8 h-8 rounded-lg bg-black/20 flex items-center justify-center border border-white/5">
+            <img src="/lumoFi-logo.png" alt="Lumo Logo" className="w-6 h-6 object-contain" />
           </div>
           <span className="font-heading text-xl font-bold text-cream">Lumo</span>
         </Link>

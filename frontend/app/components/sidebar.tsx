@@ -60,8 +60,8 @@ export function Sidebar() {
     <div className="flex flex-col h-full bg-brown w-[240px] shrink-0 border-r border-white/5 relative z-50">
       <div className="p-6 border-b border-white/5 flex items-center justify-between">
         <Link href="/dashboard" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded-lg bg-ember flex items-center justify-center shadow-lg shadow-ember/20 group-hover:shadow-ember-glow group-hover:scale-105 transition-all duration-300">
-            <span className="text-cream font-bold text-lg font-heading">L</span>
+          <div className="w-8 h-8 rounded-lg bg-black/20 flex items-center justify-center border border-white/5 group-hover:scale-105 transition-all duration-300">
+            <img src="/lumoFi-logo.png" alt="Lumo Logo" className="w-6 h-6 object-contain" />
           </div>
           <span className="font-heading text-xl text-cream font-bold">Lumo</span>
         </Link>
@@ -108,8 +108,12 @@ export function Sidebar() {
 
       <div className="p-4 border-t border-white/5">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-full bg-ember/20 text-ember flex items-center justify-center font-heading font-bold">
-            {(userProfile?.name || 'L').charAt(0).toUpperCase()}
+          <div className="w-10 h-10 rounded-full bg-black/20 border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
+            <img 
+              src={`https://api.dicebear.com/7.x/notionists/svg?seed=${userProfile?.name || 'Lumo'}&backgroundColor=transparent`} 
+              alt="User Avatar" 
+              className="w-full h-full object-cover"
+            />
           </div>
           <div className="flex-1 overflow-hidden">
             <p className="text-sm font-medium text-cream truncate">{userProfile?.name ?? 'Lumo User'}</p>

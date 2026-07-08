@@ -32,10 +32,10 @@ export function AuthBrandPanel({ headline, subline }: AuthBrandPanelProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: easeOutExpo }}
         >
-          <Link href="/" className="inline-flex items-center gap-2 mb-16">
-            <span className="w-10 h-10 rounded-xl bg-ember flex items-center justify-center shadow-lg shadow-ember/25">
-              <span className="text-cream dark:text-cream font-bold text-xl font-heading">L</span>
-            </span>
+          <Link href="/" className="inline-flex items-center gap-2 mb-16 group">
+            <div className="w-10 h-10 rounded-xl bg-black/20 flex items-center justify-center border border-white/5 shadow-xl shadow-ember/10 group-hover:scale-105 transition-transform">
+              <img src="/lumoFi-logo.png" alt="Lumo Logo" className="w-8 h-8 object-contain" />
+            </div>
             <span className="font-heading text-2xl font-bold tracking-tight text-cream">Lumo</span>
           </Link>
         </motion.div>
