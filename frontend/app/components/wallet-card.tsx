@@ -70,6 +70,14 @@ export function WalletCard() {
         className="absolute -top-20 -right-20 w-56 h-56 rounded-full bg-ember/20 blur-[70px] pointer-events-none"
       />
 
+      <motion.img
+        src="/wallet_3d_crypto_naira.png"
+        alt="3D Wallet Graphic"
+        className="absolute right-0 -top-8 w-56 h-56 object-contain opacity-[0.15] pointer-events-none"
+        animate={{ y: [0, -10, 0] }}
+        transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+      />
+
       <div className="relative z-10 flex justify-between items-start mb-6">
         <div>
           <p className="text-sm text-cream/70 mb-1">Total Balance</p>
