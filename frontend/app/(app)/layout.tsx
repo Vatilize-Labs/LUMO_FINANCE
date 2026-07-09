@@ -27,7 +27,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <img 
             src={bgImage} 
             alt="Dashboard Background Pattern" 
-            className="absolute inset-0 w-full h-full object-cover opacity-[0.03] mix-blend-screen pointer-events-none z-0"
+            className="absolute inset-0 w-full h-full object-cover opacity-5 mix-blend-screen pointer-events-none z-0"
           />
         )}
         
