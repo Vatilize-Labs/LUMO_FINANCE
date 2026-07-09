@@ -152,9 +152,9 @@ export default function LandingPage() {
             <p className="text-sm font-medium text-cream/50 mb-8 uppercase tracking-widest">Built on trusted infrastructure</p>
             <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
               <h2 className="text-2xl font-heading font-black tracking-tight">Nomba.</h2>
-              <h2 className="text-2xl font-heading font-black tracking-tight">DevCareer</h2>
-              <h2 className="text-2xl font-heading font-black tracking-tight">Techstars</h2>
-              <h2 className="text-2xl font-heading font-black tracking-tight">Y Combinator</h2>
+              <h2 className="text-2xl font-heading font-black tracking-tight">OPay</h2>
+              <h2 className="text-2xl font-heading font-black tracking-tight">PayStack</h2>
+              <h2 className="text-2xl font-heading font-black tracking-tight">FlutterWave</h2>
             </div>
           </div>
         </section>
