@@ -102,7 +102,7 @@ export default function LandingPage() {
               
               {/* Card 1: Dots Pattern */}
               <Card className="p-8 hover:border-ember/50 transition-colors group relative overflow-hidden">
-                <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 2px, transparent 0)', backgroundSize: '16px 16px' }} />
+                <img src="/feature_conversational.png" alt="Conversational Payments" className="absolute inset-0 w-full h-full object-cover opacity-15 pointer-events-none mix-blend-screen transition-transform duration-500 group-hover:scale-105" />
                 <div className="relative z-10">
                   <div className="w-12 h-12 rounded-xl bg-ember/20 text-ember flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                     <MessageSquare size={24} />
@@ -116,7 +116,7 @@ export default function LandingPage() {
 
               {/* Card 2: Diagonal Stripes Pattern */}
               <Card className="p-8 hover:border-ember/50 transition-colors group relative overflow-hidden">
-                <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'repeating-linear-gradient(45deg, white, white 1px, transparent 1px, transparent 10px)' }} />
+                <img src="/feature_security.png" alt="Bank-Grade Security" className="absolute inset-0 w-full h-full object-cover opacity-15 pointer-events-none mix-blend-screen transition-transform duration-500 group-hover:scale-105" />
                 <div className="relative z-10">
                   <div className="w-12 h-12 rounded-xl bg-ember/20 text-ember flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                     <ShieldCheck size={24} />
@@ -130,7 +130,7 @@ export default function LandingPage() {
 
               {/* Card 3: Grid Pattern */}
               <Card className="p-8 hover:border-ember/50 transition-colors group relative overflow-hidden">
-                <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+                <img src="/feature_access.png" alt="Universal Access" className="absolute inset-0 w-full h-full object-cover opacity-15 pointer-events-none mix-blend-screen transition-transform duration-500 group-hover:scale-105" />
                 <div className="relative z-10">
                   <div className="w-12 h-12 rounded-xl bg-ember/20 text-ember flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                     <Globe size={24} />
